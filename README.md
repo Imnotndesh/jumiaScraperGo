@@ -5,9 +5,10 @@
 - Download the latest release from the releases page
 - Locate the downloaded file and open terminal from the folder
 - Execute the program following the following syntax:
-'''
+```
 ./jumiaScraper -item "{Add your item here}"
-'''
+
+```
 # What's working and what's not
 - [x] Fetching data from jumiaKE
 - [x] Setting data into a usable format e.g JSON or CSV
