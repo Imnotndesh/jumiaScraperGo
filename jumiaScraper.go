@@ -69,7 +69,9 @@ func getItemFromJumia(passedItemName, getJson string) {
 		saveToJSON(itemData, passedItemName)
 		fmt.Println("Works")
 	} else {
-		fmt.Println(itemData)
+		for i :=0; i<len(itemData);i++{
+			fmt.Println(itemData[i])
+		}
 	}
 }
 
