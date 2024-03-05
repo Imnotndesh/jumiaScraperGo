@@ -10,6 +10,6 @@
 '''
 # What's working and what's not
 - [x] Fetching data from jumiaKE
-- [ ] Setting data into a usable format e.g JSON or CSV
-- [ ] Environmental args for getting specific items
+- [x] Setting data into a usable format e.g JSON or CSV
+- [x] Environmental args for getting specific items
 - [ ] Code optimizations to make it faster than it is
