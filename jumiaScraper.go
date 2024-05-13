@@ -1,13 +1,14 @@
 package main
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/gocolly/colly/v2"
 	"io/ioutil"
 	"log"
 	"os"
+	"github.com/gocolly/colly/v2"
 )
 
 // Generic types definition
@@ -42,7 +43,7 @@ func saveToJSON(itemData interface{}, passedItemName string) {
 // Scraping logic
 func getItemFromJumia(passedItemName, getJson string) {
 	url := "http://jumia.co.ke/catalog/?q=" + passedItemName + "&sort=lowest-price&shipped_from=country_local"
-
+	
 	jumiaColly := colly.NewCollector()
 	jumiaColly.OnHTML("a.core", func(h *colly.HTMLElement) {
 
@@ -65,10 +66,31 @@ func getItemFromJumia(passedItemName, getJson string) {
 
 	jumiaColly.Visit(url)
 
-	if getJson == "y" || getJson == "Y" {
+	if getJson == "j" || getJson == "J" {
 		saveToJSON(itemData, passedItemName)
 		fmt.Println("Works")
-	} else {
+	}else if getJson == "c" {
+		filename := passedItemName+".csv"
+		file,err := os.Create(filename)
+		if err != nil{
+			log.Fatal(err)
+		}
+		defer file.Close()
+		csvWriter := csv.NewWriter(file)
+		header := []string{"Item Name","Item Price","Item Url"}
+		err = csvWriter.Write(header)
+		if err != nil{
+			log.Fatal(err)
+		}
+		for _, item := range itemData{
+			record := []string{item.Name,item.Price,item.Url}
+			err := csvWriter.Write(record)
+			if err != nil{
+				log.Fatal(err)
+			}
+		}
+		csvWriter.Flush()
+	} else{
 		for i :=0; i<len(itemData);i++{
 			fmt.Println(itemData[i])
 		}
@@ -82,15 +104,14 @@ func startScrape() {
 
 	// Flags are as follows:
 	// -i "item name"
-	// -s "y" {to save to JSON}
+	// -s "j" {to save to JSON}
 
 	flag.StringVar(&passedItemName, "i", "", "Item name to fetch")
-	flag.StringVar(&getJson, "s", "", " 'y' To save to json file")
+	flag.StringVar(&getJson, "s", "", " 'j' To save to json file")
 	flag.Parse()
 	getItemFromJumia(passedItemName, getJson)
 }
+
 func main() {
-	fmt.Println("...... Fetching ......")
 	startScrape()
-	println("...... Closing fetcher ......")
 }
