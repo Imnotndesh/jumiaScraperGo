@@ -6,11 +6,12 @@
 - Locate the downloaded file and open terminal from the folder
 - Execute the program following the following syntax:
 ```
-./jumiaScraper -item "{Add your item here}"
+./jumiaScraper -i ITEM_NAME
 
 ```
-# What's working and what's not
-- [x] Fetching data from jumiaKE
-- [x] Setting data into a usable format e.g JSON or CSV
-- [x] Environmental args for getting specific items
-- [ ] Code optimizations to make it faster than it is
+# BUILD FROM SOURCE
+- This was compiled using golang 1.22.4 so make sure to have it installed
+- Clone the repo and run from the terminal
+```
+    go build jumiascraper.go
+```
